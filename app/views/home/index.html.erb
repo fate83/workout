@@ -1,0 +1,27 @@
+<h1>Workout 1.0</h1>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <% @week.each do |wday| %>
+      <th class="text-center <%= wday.to_date == Date.today ? "success" : ""%>">
+        <%= wday.strftime("%d.%m.%y") %>
+      </th>
+    <% end %>
+  </thead>
+  <tbody>
+    <% User.all.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <% @week.each do |wday| %>
+            <td class="text-center <%= "success" if wday.to_date == Date.today %>">
+              <%= link_to(
+                      toggle_path(@exercises[user][wday]),
+                      method: :patch,
+                      class: "text-#{@exercises[user][wday].done ? 'success' : 'danger'}"
+                  ) { boolean_glyphicon(@exercises[user][wday].done) }%>
+            </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
